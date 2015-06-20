@@ -37,7 +37,7 @@ namespace BSDAL
             _context.ObjectContext.SaveChanges();
         }
 
-        public List<T> GetAll<T>(T entity) where T : class,new()
+        public List<T> GetAll<T>() where T : class,new()
         {
             return _context.ObjectContext.CreateObjectSet<T>().ToList();
         }

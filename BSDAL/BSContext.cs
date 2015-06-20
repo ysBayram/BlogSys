@@ -15,6 +15,7 @@ namespace BSDAL
         public DbSet<BSComment> BSComment { get; set; }
 
         public BSContext()
+            : base("BSConnectionString")
         {
             Database.SetInitializer(new BSDBInitializer());
         }

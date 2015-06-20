@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace BSEntities
 {
-    [Table("BSPost")]
-    public class BSPost:BSInput
+    [Table("BSComment")]
+    public class BSComment:BSInput
     {
         [Required]
-        public string Title { get; set; }
+        public string CommenterName { get; set; }
         [Required]
         public string Content { get; set; }
-        public string Picture { get; set; }
         public DateTime Date { get; set; }
-        public virtual BSUser User { get; set; }
-        public virtual List<BSComment> Comments { get; set; }
+        public virtual BSPost Post { get; set; }
 
         public override string ToString()
         {
-            return this.Title;
+            return this.CommenterName + "'s comment on " + this.Post.Title;
         }
+
     }
 }
