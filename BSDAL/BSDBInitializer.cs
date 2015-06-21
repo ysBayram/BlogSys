@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using BSEntities;
 using System.Data.Entity;
-using System.Security.Cryptography;
 
 namespace BSDAL
 {
@@ -18,7 +17,7 @@ namespace BSDAL
             context.BSUser.Add(new BSUser()
             {
                 Account = "admin",
-                Password = MD5Encrypt("admin"),
+                Password = Tools.ToMD5Encrypt("admin"),
                 Name = FakeData.NameData.GetFirstName(),
                 Surname = FakeData.NameData.GetSurname(),
                 Mail = FakeData.NetworkData.GetEmail(),
@@ -32,50 +31,46 @@ namespace BSDAL
                 context.BSUser.Add(new BSUser()
                 {
                     Account = FakeData.TextData.GetAlphabetical(5),
-                    Password = MD5Encrypt(FakeData.TextData.GetAlphaNumeric(5)),
+                    Password = Tools.ToMD5Encrypt(FakeData.TextData.GetAlphaNumeric(5)),
                     Name = FakeData.NameData.GetFirstName(),
                     Surname = FakeData.NameData.GetSurname(),
                     Mail = FakeData.NetworkData.GetEmail(),
-                    Role = FakeData.EnumData.GetElement<BSUserRole>()
+                    Role = (BSUserRole)(rd.Next(1,2))
                 });
             }
             context.SaveChanges();
 
-            List<BSUser> usrList = context.BSUser.ToList();
-            for (int i = 0; i < 10; i++)
+            foreach (BSUser usr in context.BSUser.Where(x=> x.Role == BSUserRole.User).ToList())
             {
-                context.BSPost.Add(new BSPost()
+                for (int i = 0; i < 10; i++)
                 {
-                    Title = FakeData.TextData.GetSentence(),
-                    Content = FakeData.TextData.GetSentences(30),
-                    Date = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
-                    User = usrList[rd.Next(0, usrList.Count - 1)]
-                });
+                    context.BSPost.Add(new BSPost()
+                    {
+                        Title = FakeData.TextData.GetSentence(),
+                        Content = FakeData.TextData.GetSentences(30),
+                        Date = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
+                        User = usr
+                    });
+                } 
             }
             context.SaveChanges();
-
-            List<BSPost> postList = context.BSPost.ToList();
-
-            for (int i = 0; i < 4; i++)
+            
+            foreach (BSPost post in context.BSPost.ToList())
             {
-                context.BSComment.Add(new BSComment()
+                for (int i = 0; i < 10; i++)
                 {
-                    CommenterName = FakeData.NameData.GetFullName(),
-                    Content = FakeData.TextData.GetSentences(2),
-                    Date = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
-                    Post = postList[rd.Next(0, postList.Count - 1)]
-                });
+                    context.BSComment.Add(new BSComment()
+                    {
+                        CommenterName = FakeData.NameData.GetFullName(),
+                        Content = FakeData.TextData.GetSentences(2),
+                        Date = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
+                        Post = post
+                    });
+                } 
             }
             context.SaveChanges();
 
         }
 
-        public static string MD5Encrypt(string text)
-        {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] btr = Encoding.UTF8.GetBytes(text);
-            byte[] md5btr = md5.ComputeHash(btr);
-            return Convert.ToBase64String(md5btr);
-        }
     }
 }

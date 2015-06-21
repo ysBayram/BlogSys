@@ -39,10 +39,16 @@
     </div>
 
     <div class="container">
-        <div class="blog-header">
+        <div class="col-sm-8 blog-header">
             <h1 class="blog-title">Blog Sys Başlığı</h1>
             <p class="lead blog-description">Bilge Adam Blog Denemes Projesi</p>
         </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset">
+                <a class="btn btn-lg btn-primary btn-block" href="Dashboard/Login" >Kullanıcı Girişi</a>
+            </div>
+        </div>
+        <!-- /.blog-sidebar -->
 
         <div class="row">
 
