@@ -28,11 +28,11 @@ namespace BSUI.Dashboard
             }
 
             Repo = new BSRepository();
+            usr = Session["User"] as BSUser;
 
             if (!Page.IsPostBack)
             {
                 GetUserDetail();
-                usr = Session["User"] as BSUser;
                 if (AddEdit != 0)
                 {
                     btnProcess.Text = "Düzenle";
@@ -54,7 +54,7 @@ namespace BSUI.Dashboard
                 if (AddEdit == 0)
                 {
 
-                    if (!string.IsNullOrEmpty(txtAccount.Text) && !string.IsNullOrEmpty(txtPassword.Text) && !string.IsNullOrEmpty(txtMail.Text) && !string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtSurname.Text) && (ddlRole.SelectedIndex != -1) && fuAvatar.HasFile)
+                    if (!string.IsNullOrEmpty(txtAccount.Text) && !string.IsNullOrEmpty(txtPassword.Text) && !string.IsNullOrEmpty(txtMail.Text) && !string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtSurname.Text) && (ddlRole.SelectedIndex != -1))
                     {
                         Repo.Insert<BSUser>(new BSUser()
                         {
@@ -78,7 +78,7 @@ namespace BSUI.Dashboard
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(txtAccount.Text) && !string.IsNullOrEmpty(txtPassword.Text) && !string.IsNullOrEmpty(txtMail.Text) && !string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtSurname.Text) && (ddlRole.SelectedIndex != -1) && fuAvatar.HasFile)
+                    if (!string.IsNullOrEmpty(txtAccount.Text) && !string.IsNullOrEmpty(txtPassword.Text) && !string.IsNullOrEmpty(txtMail.Text) && !string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtSurname.Text) && (ddlRole.SelectedIndex != -1))
                     {
                         BSUser EditUser = Repo.GetAll<BSUser>().ToList().Where(x => x.ID == AddEdit).FirstOrDefault();
                         EditUser.Account = txtAccount.Text;
@@ -127,7 +127,15 @@ namespace BSUI.Dashboard
             ddlRole.DataValueField = "Key";
             ddlRole.DataBind();
 
-            rptUsers.DataSource = Repo.GetAll<BSUser>();
+            if (usr.Role == BSUserRole.Admin)
+            {
+                rptUsers.DataSource = Repo.GetAll<BSUser>();
+            }
+            else
+            {
+                rptUsers.DataSource = Repo.GetAll<BSUser>().Where(x => x.ID == usr.ID).ToList();
+            }
+            
             rptUsers.DataBind();
         }
 

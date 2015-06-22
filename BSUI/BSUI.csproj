@@ -1093,6 +1093,7 @@
     <Content Include="packages.config" />
     <Content Include="Site.Master" />
     <Content Include="Dashboard\Dashboard.Master" />
+    <None Include="Properties\PublishProfiles\ysBayram.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

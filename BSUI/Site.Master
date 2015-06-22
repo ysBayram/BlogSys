@@ -45,15 +45,15 @@
         </div>
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
-                <a class="btn btn-lg btn-primary btn-block" href="Dashboard/Login" >Kullanıcı Girişi</a>
+                <a class="btn btn-lg btn-primary btn-block" href="Dashboard/Login">Kullanıcı Girişi</a>
             </div>
         </div>
         <!-- /.blog-sidebar -->
 
         <div class="row">
-
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
-
+            <form id="formBody" runat="server">
+                <asp:ContentPlaceHolder ID="cphBody" runat="server"></asp:ContentPlaceHolder>
+            </form>
         </div>
         <!-- /.row -->
     </div>

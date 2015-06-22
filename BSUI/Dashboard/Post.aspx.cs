@@ -30,11 +30,11 @@ namespace BSUI.Dashboard
 
             CacheRepo = new BSCacheRepository();
             Repo = new BSRepository();
+            usr = Session["User"] as BSUser;
 
             if (!Page.IsPostBack)
             {
                 GetPostPageDetail();
-                usr = Session["User"] as BSUser;
                 if (AddEdit != 0)
                 {
                     btnProcess.Text = "Düzenle";
@@ -123,7 +123,15 @@ namespace BSUI.Dashboard
             ddlUser.DataValueField = "ID";
             ddlUser.DataBind();
 
-            rptPosts.DataSource = CacheRepo.Get<BSPost>();
+            if (usr.Role == BSUserRole.Admin)
+            {
+                rptPosts.DataSource = CacheRepo.Get<BSPost>();
+            }
+            else
+            {
+                rptPosts.DataSource = CacheRepo.Get<BSPost>().Where(x => x.User.ID == usr.ID).ToList();
+            }
+            
             rptPosts.DataBind();
         }
 

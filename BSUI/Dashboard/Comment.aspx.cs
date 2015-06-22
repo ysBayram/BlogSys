@@ -28,11 +28,11 @@ namespace BSUI.Dashboard
             }
 
             Repo = new BSRepository();
+            usr = Session["User"] as BSUser;
 
             if (!Page.IsPostBack)
             {
                 GetCommentPageDetail();
-                usr = Session["User"] as BSUser;
                 if (AddEdit != 0)
                 {
                     btnProcess.Text = "Düzenle";
@@ -119,7 +119,14 @@ namespace BSUI.Dashboard
             ddlPost.DataValueField = "ID";
             ddlPost.DataBind();
 
-            rptComments.DataSource = Repo.GetAll<BSComment>();
+            if (usr.Role == BSUserRole.Admin)
+            {
+                rptComments.DataSource = Repo.GetAll<BSComment>();
+            }
+            else
+            {
+                rptComments.DataSource = Repo.GetAll<BSComment>().Where(x => x.Post.User.ID == usr.ID).ToList();
+            }            
             rptComments.DataBind();
         }
 
