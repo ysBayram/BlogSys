@@ -21,7 +21,7 @@ namespace BSUI
 
                 //Environment.SpecialFolder.Windows + @"\Microsoft.NET\Framework64\v4.0.30319\aspnet_regsql -S . -E -d BSEntities -ed
                 //Environment.SpecialFolder.Windows + @"\Microsoft.NET\Framework64\v4.0.30319\aspnet_regsql -S . -E -d BSEntities -t BSPost -et
-                
+
                 SqlDependency.Start(ConfigurationManager.ConnectionStrings["BSConnectionString"].ConnectionString);
             }
 

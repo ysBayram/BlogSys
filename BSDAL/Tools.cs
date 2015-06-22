@@ -23,7 +23,6 @@ namespace BSDAL
         {
             //Bu metodumuzlada Türkçe karakterleri temizleyip ingilizceye uyarlıyoruz
             string Temp = text.ToLower();
-
             Temp = Temp.Replace("-", "").ToString();
             Temp = Temp.Replace(" ", "-").ToString();
             Temp = Temp.Replace("ç", "c").ToString();

@@ -15,20 +15,20 @@ namespace BSDAL
         {
             Type entityType = typeof(T);
             BSRepository BSRepo = new BSRepository();
-            var tempList = BSRepo.GetAll<T>();
 
             try
             {
                 if (HttpContext.Current.Cache[entityType.Name] == null)
-                {                    
+                {
                     SqlCacheDependency dep = new SqlCacheDependency("BSDependency", entityType.Name);
-                    HttpContext.Current.Cache.Insert(entityType.Name, tempList, dep);
+                    var tempList = BSRepo.GetAll<T>();
+                    HttpContext.Current.Cache.Insert(entityType.Name, tempList, dep, DateTime.Now.AddHours(1), Cache.NoSlidingExpiration);
                 }
                 return HttpContext.Current.Cache[entityType.Name] as List<T>;
             }
             catch (Exception ex)
             {
-                return tempList;
+                return BSRepo.GetAll<T>();
             }
         }
 

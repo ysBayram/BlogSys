@@ -32,20 +32,19 @@ namespace BSUI
         {
             if (!Page.IsPostBack)
             {
-                //rptPost.DataSource = bsrep.Get<BSPost>();
-                //rptPost.DataBind();
                 GetPosts();
             }
         }
 
         protected void GetPosts()
         {
+            List<BSPost> lstPost = bsrep.Get<BSPost>();
             PagedDataSource pd = new PagedDataSource();
             pd.AllowPaging = true;
             pd.PageSize = 10;
-            pd.DataSource = bsrep.Get<BSPost>();
+            pd.DataSource = lstPost;
             pd.CurrentPageIndex = CurrentPage;
-            PageNumber.Text = "Sayfa: " + (CurrentPage).ToString();
+            PageNumber.Text = "Sayfa: " + (CurrentPage).ToString() + " " + (lstPost.Count / 10);
             btnPrev.Enabled = !pd.IsFirstPage;
             btnNext.Enabled = !pd.IsLastPage;
 

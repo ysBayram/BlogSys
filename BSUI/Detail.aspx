@@ -13,13 +13,11 @@
         <br />
         <div class="well">
             <h4>Yorum Oluştur</h4>
-            <form role="form" id="formComment" runat="server">
                 <div class="form-group">
                     <input class="form-control" type="text" value="" placeholder="İsim" id="CommenterName" runat="server" required /><br />
                     <textarea class="form-control" rows="3" placeholder="Yorum İçerik" id="CommentContent" runat="server" required></textarea>
                 </div>
                 <asp:Button ID="btnSendComment" runat="server" Text="Gönder" CssClass="btn btn-primary" OnClick="btnSendComment_Click" />
-            </form>
         </div>
         <hr />
         <asp:Repeater ID="rptComment" runat="server">
